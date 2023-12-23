@@ -154,7 +154,7 @@ def main():
     variables = [cell for cell in range(n_cells)]  #initialise variables
     domain = {v: [i for i in range(1,10)] for v in variables}
     neighbors = {v: cell_neighbours(v) for v in variables}
-
+    possible_vals = {v: [] for v in variables}
     csp = {
         "variables": variables,
         "domain": domain,
@@ -172,9 +172,9 @@ def main():
 
         #early detection of invalid boards
         if cell_val != 0:
-            # if cell_val < 0 or cell_val >=9:
-            #     print("invalid board")
-            #     break
+            if cell_val < 0 or cell_val >9:
+                print("invalid board")
+                break
             if is_valid(grid_array, row, col ,cell_val):
                 csp.get("domain")[i] = [cell_val]
                 
@@ -184,10 +184,9 @@ def main():
                 break
         
         grid_array[row][col] = cell_val  #return board to its initial form after validation
-    possible_vals = {v: [] for v in csp.get("variables")}
 
     
-    for i in range(n_cells):
+    #for i in range(n_cells):
         
         domain_i = csp.get("domain").get(i)
 
