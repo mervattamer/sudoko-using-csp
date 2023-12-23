@@ -27,7 +27,6 @@ def cell_neighbours(variable_index):
 
 def revise(csp, v , n):
     revised = False
-    csp_revised = copy.deepcopy(csp)
     for d in csp.get("domain").get(v):
         consistent = False
         
@@ -36,9 +35,9 @@ def revise(csp, v , n):
                 consistent = True
                 break
         if (consistent == False):
-            csp_revised.get("domain").get(v).remove(d)
+            csp.get("domain").get(v).remove(d)
             revised = True
-    return revised, csp_revised
+    return revised
 
 
 
@@ -51,43 +50,43 @@ def is_arc_consistent(csp):
 
     while(len(arcs_queue) != 0 ):
         v, n = arcs_queue.popleft()
-        revised, revised_csp = revise(csp, v, n)
+        revised = revise(csp, v, n)
         if revised:
-            if (revised_csp.get("domain").get(v) == []): #if no values in domain, try len = 0 if error
-                return False, revised_csp
+            if (csp.get("domain").get(v) == []):
+                return False
             for x in csp.get("neighbors").get(v):
                 if x != n:
                     arcs_queue.append((x,v))
-            csp = revised_csp
-    return True , csp
+    return True
 
 def lcv(variable, csp):
-    domain = []
+    domain = csp.get("domain").get(variable)
+    neighbors = csp.get("neighbors").get(variable)
 
-    for v in csp.get("domain").get(variable):
-        count = 0
-        for n in csp.get("neighbors").get(variable):
-            if v in csp.get("domain").get(n):
-                count+=1
-        domain.append((count, v))
-    
-    domain.sort(key=lambda d: d[0])
-    return [d[1] for d in domain]
+    def count_constraints(value):
+        return sum(1 for neighbor in neighbors if value in csp.get("domain").get(neighbor))
+
+    # Sort the domain based on the count of constraints (least constraining value first)
+    sorted_domain = sorted(domain, key=count_constraints)
+
+    return sorted_domain
 
 
 def forwad_check(csp, variable, possible_vals):
     csp_fc = copy.deepcopy(csp)
 
     for n in csp_fc.get("neighbors").get(variable):
-        if possible_vals.get(variable)[0] in csp_fc.get("domain").get(n):
+        n_domain = csp_fc.get("domain").get(n)
+
+        if possible_vals.get(variable)[0] in n_domain:
             csp_fc.get("domain").get(n).remove(possible_vals.get(variable)[0])
 
-            if(len(csp_fc.get("domain").get(n)) == 0):
+            if not n_domain:
                 return False, csp_fc
     return True, csp_fc
 
             
-def backtrack_ac3(possible_vals, csp, solved_csp):
+def backtrack_ac3(possible_vals, csp):
     #get unnassigned variable usig MRV
     mrv = 0
     solved = True
@@ -116,7 +115,7 @@ def backtrack_ac3(possible_vals, csp, solved_csp):
 
             forward_checked, csp_fc = forwad_check(csp, unassigned_variable, possible_vals)
             if forward_checked:
-                backtrack_sol = backtrack_ac3(possible_vals, csp, solved_csp)
+                backtrack_sol = backtrack_ac3(possible_vals, csp)
                 if backtrack_sol:
                     return True
             
@@ -188,9 +187,9 @@ def main():
         #####
             
 
-    solved_csp = copy.deepcopy(possible_vals) #try deep copy if failed
+    
     if is_arc_consistent(csp):
-        backtrack_ac3(possible_vals, csp, solved_csp)
+        backtrack_ac3(possible_vals, csp)
     
 
     #print output
