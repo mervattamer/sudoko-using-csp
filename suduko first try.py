@@ -49,13 +49,6 @@ def is_arc_consistent(csp):
         for n in csp.get("neighbors").get(v):
             arcs_queue.append((v,n))
 
-
-   # q =[(v, n) for v in csp.get("variables") for n in csp.get("neighbors").get(v)]
-   # arcs_queue = deque(q)
-
-    #for i in range(len(csp.get("variables"))):
-       # arcs_queue.append(csp.get("variables")[i], csp.get("neighbors")[i])
-
     while(len(arcs_queue) != 0 ):
         v, n = arcs_queue.popleft()
         revised, revised_csp = revise(csp, v, n)
