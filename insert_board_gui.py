@@ -6,7 +6,7 @@ background_image = pygame.image.load('game_bg.jpg')
 
 def main():
     pygame.font.init()
-    win = pygame.display.set_mode((600, 700))
+    win = pygame.display.set_mode((540, 540))
     pygame.display.set_caption("Sudoku")
     b=[[0 for _ in range(9)] for _ in range(9)]
     board = Grid(b, 9, 9, 540, 540, win)

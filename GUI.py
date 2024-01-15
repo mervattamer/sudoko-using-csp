@@ -3,9 +3,26 @@ import time
 import random_fn
 
 background_image = pygame.image.load('game_bg.jpg')
-
+def array_to_string(array):
+    result = ""
+    for row in array:
+        result += " ".join(str(num) for num in row)
+        result += "\n"
+    return result
+board_string = """
+0 0 0 1 0 0 4 0 0
+0 0 4 0 9 0 0 6 2
+0 0 0 7 0 0 0 3 0
+5 0 0 0 0 0 0 1 0
+1 0 0 6 8 3 0 0 0
+3 4 0 0 1 0 0 0 0
+0 0 6 0 7 0 0 4 5
+8 0 1 3 4 0 0 0 6
+0 0 0 0 0 6 0 0 1
+"""
 class Grid:
-    board = random_fn.random_inp()
+    #board = random_fn.random_inp()
+    board = [[int(num) for num in row.split()] for row in board_string.strip().split("\n")]
     def __init__(self, rows, cols, width, height, win):
         self.rows = rows
         self.cols = cols
@@ -194,7 +211,7 @@ def redraw_window(win, board, time, strikes):
     text = fnt.render("Time: " + format_time(time), 1, (0,0,0))
     win.blit(text, (540 - 160, 560))
     # Draw Strikes
-    text = fnt.render("X " * strikes, 1, (255, 0, 0))
+    text = fnt.render( "FAULTS:" + str(strikes), 1, (255, 0, 0))
     win.blit(text, (20, 560))
     # Draw grid and board
     board.draw()
@@ -211,7 +228,7 @@ def format_time(secs):
 
 def main():
     pygame.font.init()
-    win = pygame.display.set_mode((600, 700))
+    win = pygame.display.set_mode((600, 610))
     pygame.display.set_caption("Sudoku")
     board = Grid(9, 9, 540, 540, win)
     key = None

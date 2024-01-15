@@ -89,6 +89,8 @@ def is_arc_consistent(csp):
     for v in csp.get("variables"):
         for n in csp.get("neighbors").get(v):
             arcs_queue.append((v,n))
+            #print("added arc \n")
+            #print(arcs_queue)
 
     while(len(arcs_queue) != 0 ):
         v, n = arcs_queue.popleft()
@@ -120,8 +122,20 @@ def forwad_check(csp, variable, possible_vals):
     for n in csp_fc.get("neighbors").get(variable):
         n_domain = csp_fc.get("domain").get(n)
 
+        #print("domainn  ")
+        ##print(n)
+        ##print("\n")
+        #print(csp.get("domain").get())
+        #time.sleep(5)
+
         if possible_vals.get(variable)[0] in n_domain:
             csp_fc.get("domain").get(n).remove(possible_vals.get(variable)[0])
+            print("removed value to domain from pos")
+            print(n)
+            print("\n")
+            print(csp.get("domain").get(n))
+            
+            time.sleep(5)
 
             if not n_domain:
                 return False, csp_fc
@@ -156,9 +170,11 @@ def backtrack_ac3(possible_vals, csp):
                 consistent = False
         if consistent:
             possible_vals.get(unassigned_variable).append(v)
+            #print("added value to domain \n")
+            #print(csp.get("domain").get(unassigned_variable))
             space_for_tree = space_for_tree + "--"
             s_tree= s_tree+ "  "
-            print(space_for_tree + "arc consistent added " + str(v) + " to pos" + str(unassigned_variable)+ "\n" )
+            #print(space_for_tree + "arc consistent added " + str(v) + " to pos" + str(unassigned_variable)+ "\n" )
             
             print_grid(csp, possible_vals, s_tree, display_gui=False)
 
@@ -169,10 +185,13 @@ def backtrack_ac3(possible_vals, csp):
                     return True
             
             possible_vals.get(unassigned_variable).remove(v) #remove value from soln if forward check failed
+            #print("removed value from domain \n")
+            #print(csp.get("domain").get(unassigned_variable))
             
             space_for_tree= space_for_tree.rstrip(space_for_tree[:-3])
             s_tree = s_tree.rstrip(s_tree[:-3])
-            print(space_for_tree+ "not arc consistent removed " + str(v) + " from pos" + str(unassigned_variable) + "\n")
+            
+            #print(space_for_tree + "not arc consistent removed " + str(v) + " from pos" + str(unassigned_variable) + "\n")
             print_grid(csp, possible_vals, s_tree, display_gui=False)
     return False
         
@@ -292,7 +311,7 @@ def main_gui(b):
             elapsed_time = end_time - start_time
 
             print(f"Elapsed Time: {elapsed_time} seconds")
-            time.sleep(5)
+            time.sleep(60)
             break
         break
         
