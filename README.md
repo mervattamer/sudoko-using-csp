@@ -35,15 +35,7 @@ Sudoku Solver is a logic-based number-placement game that challenges players to 
 
 ## How to Run
 
-1. **Compile the Code:**
-   ```bash
-   gcc sudoku_solver.c -o merv_gui
-   ```
-
-2. **Run the Executable:**
-   ```bash
-   ./sudoku_solver
-   ```
+run the file merv_gui.py 
 
 3. **Follow the On-screen Instructions in GUI Mode.**
 
