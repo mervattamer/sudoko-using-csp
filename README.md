@@ -1,7 +1,3 @@
-Certainly! Here's a README template for your Sudoku Solver project:
-
----
-
 # Sudoku Solver
 
 ## 1. Game Description
@@ -41,7 +37,7 @@ Sudoku Solver is a logic-based number-placement game that challenges players to 
 
 1. **Compile the Code:**
    ```bash
-   gcc sudoku_solver.c -o sudoku_solver
+   gcc sudoku_solver.c -o merv_gui
    ```
 
 2. **Run the Executable:**
