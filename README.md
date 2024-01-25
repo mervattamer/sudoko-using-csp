@@ -33,11 +33,12 @@ Sudoku Solver is a logic-based number-placement game that challenges players to 
     - For each cell with a singleton domain, assign that value to the cell.
   - **Repeat:** Continue the process of enforcing arc consistency and updating the Sudoku grid until no more changes can be made and the board is filled.
 
-## How to Run
+## 3. How to Run
 
 run the file merv_gui.py 
+Follow the On-screen Instructions in GUI Mode.
 
-3. **Follow the On-screen Instructions in GUI Mode.**
+
 
 ---
 
